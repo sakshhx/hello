@@ -1,0 +1,56 @@
+> marks <- c(97,78,57,97,57,66,87,64,87,78)
+> result <- mean(marks)
+> print(result)
+[1] 76.6
+
+
+> #VECTOR OF MARKS
+> marks <- c(97,78,57,97,57,64,87)
+> result <- median(marks)
+> print(result)
+[1] 78
+
+
+> # marks <- c(97,78,57,97,57,66,87,64,87,78)
+> mode = function() {
++ return (names(sort(-table(marks)))[1])
++ }
+> mode()
+[1] "78"
+
+
+> #CALCULATE CENTRAL TENDENCY - MEAN, MEDIAN, AND MODE ON IMPORTED FILE
+> getwd()
+[1] "C:/Users/hp/Documents"
+> setwd("C:/Users/hp/Desktop")
+Error: '\U' used without hex digits in character string (<input>:1:11)
+> setwd("C:/Users/hp/Desktop")
+> myData = read.csv("CardioGoodFitness1.csv")
+> print(head(myData))
+  Sr.No. Product Age Gender Education MaritalStatus Usage Fitness Income Miles
+1      1   TM195  18 Female        14        Single     3       4  29542   112
+2      2   TM195  19 Female        14        Single     2       4  31856    75
+3      3   TM195  19 Male         14      Partnered     4       4  30699    66
+4      4   TM195  19 Male         13        Single     3       3  29542    85
+5      5   TM195  20 Female        14      Partnered     2       3  32943    47
+6      6   TM195  20 Female        14      Partnered     3       3  35279    66
+
+
+> myData = read.csv("CardioGoodFitness1.csv")
+> result = median(myData$Age)
+> print(result)
+[1] 19
+
+> myData = read.csv("CardioGoodFitness1.csv")
+> result = mean(myData$Age)
+> print(result)
+[1] 19.1667
+
+> myData = read.csv("CardioGoodFitness1.csv")
+> mode = function() {
++ return (names(sort(-table(myData$Age)))[1])
++ }
+
+> mode()
+[1] "19"
+>

@@ -1,0 +1,64 @@
+#BAR PLOT
+barplot(airquality$Ozone,
+        main = 'Ozone Concentration in air',
+        xlab='ozone levels', horiz=TRUE)
+
+#VERTICAL BAR PLOT
+barplot(airquality$Ozone,
+        main = 'Ozone Concentration in air',
+        xlab='ozone levels',col='blue', horiz=FALSE)
+
+#HISTOGRAM
+data(airquality)
+hist(airquality$Temp,main="La Guardia Aiport's Maximum temperature(Daily)",
+                               xlab = "Temperature(Fahrenheit)",
+                               xlim = c(50, 125), col="yellow",
+                               freq=TRUE)
+
+
+#BOX PLOT
+data(airquality)
+boxplot(airquality$Wind, main="Average wind speed at LA Guardia Airport",
+        xlab="Miles per hour", ylab="Wind",
+        col="orange", border="brown",
+        horizontal=TRUE, notch=TRUE)
+
+#MULTIPLE BOX PLOT
+boxplot(airquality[,0:4],
+        main="Box plots for air quality")
+
+#SCATTER PLOT
+data(airquality)
+plot(airquality$Ozone, airquality$Month,
+     main="Scatterplot Example",
+     xlab="Ozone concentration in parts per billion",
+     ylab="Month of observation", pch=19)
+
+#HEATMAP
+data<-matrix(rnorm(25,0,5), nrow=5, ncol=5)
+colnames(data) <-paste0("col", 1:5)
+rownames(data)<-paste0("row", 1:5)
+heatmap(data)
+
+install.packages("maps")
+library(maps)
+map(database="world")
+df<-data.frame(
+  city=c("New York", "Los Angeles", "Chicago", "Houston"),
+  lat=c(40.566,34.566,43.455,56.677),
+  lng=c(-54.66,-123.455,56.77,-78.77)
+)
+points(x=df$lng, y=df$lat, col="Red")
+
+#3D GRAPHS
+cone<-function(x,y){
+  sqrt(x^2 + y^2)
+}
+x<-y<-seq(-1,1,length=30)
+z<-outer(x,y,cone)
+persp(x,y,z,
+      main="Perspective plot of a cone",
+      zlab="Height",
+      theta=30, phi=15,
+      col="orange", shade=0.4)
+

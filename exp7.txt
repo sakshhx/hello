@@ -1,0 +1,32 @@
+x<-as.Date("19-01-01")
+x
+y<-Sys.time()
+y
+#GET CURRENT DATE & TIME
+date()
+Sys.Date()
+Sys.time()
+
+install.packages('lubridate')
+library(lubridate)
+now()
+#EXTRACTION YEARS,MONTHS,DAYS
+library(lubridate)
+dates<-c("2025-08-22","2012-04-19","2017-03-05")
+year(dates)
+month(dates)
+mday(dates)
+#MANIPULATE DATA VALUES
+my_date<-as.Date("2022-05-27")
+my_date
+class(my_date)
+format(my_date,"%y-%h-%d")
+format(my_date,"%d-%m-%y")
+format(my_date,"%Y-%m-%h-%d-%H-%M-%S")
+format(my_date,"%d-%m-%y")
+#USING UPDATE 
+library(lubridate)
+date<-ymd("2025-08-22")
+update(date, year=2004,month=10,mday=12)
+update(date, year=2004,month=9,mday=1)
+update(date, year=2004,minut=10,seconds=12)

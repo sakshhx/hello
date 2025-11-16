@@ -1,0 +1,50 @@
+> marks <- c(97,78,57,64,87)
+> #calculate 70th percentile marks
+> result <- quantile(marks, 0.70)
+> print(result)
+70%
+85.2
+>
+> marks <- c(97,78,57,64,87)
+> result <- quantile(marks, c(0.7,0.5,0.8))
+> print(result)
+ 70%  50%  80%
+85.2 78.0 89.0
+>
+
+> dataframe1 <- data.frame(
++ Name = c("Juan","Kay","Ray","Aley"),
++ Age = c(22,15,19,30,23),
++ ID = c(101,102,103,104,105)
++ )
+> result <- quantile(dataframe1$Age, c(0.55,0.27))
+> print(result)
+ 55%  27%
+22.20 19.24
+
+> y = c(445,530,510,530,545,565,530,490,500,530,460,500,530,430,535,535,475,545,520,495,495,570,490,470,490)
+> var(y)
+[1] 1723.03
+> sd(y)
+[1] 41.50939
+
+> mean(y)-mean(y)^2
+[1] -1643.615
+
+
+> #RANGE
+> data = c(12,45,NA, 67,23,45,78,NA, 89)
+> #display
+> print(data)
+[1] 12 45 NA 67 23 45 78 NA 89
+> #find range
+> print(max(data,na.rm=TRUE)-min(data,na.rm=TRUE))
+[1] 77
+
+> #INTER - QUARTILE RANGE
+> IQR(x,na.rm=FALSE,type=7)
+Error: object 'x' not found
+> x <- c(0:10)
+> IQR(x)
+[1] 5
+>

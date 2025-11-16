@@ -1,0 +1,87 @@
+> #create data frame
+> df <- data.frame(x = c(1,3,5,6,9,12,14), y = c(12,6,4,25,35,9), z = c(12,7,8,9,15,17,29))
+> df
+  x  y  z
+1 1 12 12
+2 3  6  7
+3 5  4  8
+4 6 25  9
+5 9 35 15
+6 12  9 17
+7 14  9 29
+
+> #STRATIFIED SAMLING USING NUMBER OF ROWS
+> install.packages("dplyr")
+> library(dplyr)
+
+> set.seed(123)
+> set.seed(1)
+
+> #create data frame
+> df <- data.frame(grade = rep(c('freshman','junior','senior'),esc = 10), gpa = rnorm(60,mean=0.91))
+> head(df)
+     grade        gpa
+1 freshman 0.112344
+2 freshman 0.559593
+3 freshman 0.49511
+4 freshman 0.76584
+5 freshman 0.99052
+6 freshman 0.635859
+
+> #obtain stratified sample
+> strat_sample <- df %>%
++ group_by(grade) %>%
++ sample_n(size = 10)
+> table(strat_sample$grade)
+freshman   junior   senior
+      10       10       10
+>
+
+> #STRATIFIED SAMPLING USING FRACTION OF ROWS
+> strat_sample <- df %>%
++ group_by(grad) %>%
++ sample_frac(size=.15)
+> group_by(grade) %>%
++ sample_frac(size=.15)
+Error: object 'grade' not found
+> strat_sample <- df %>%
++ group_by(grade) %>%
++ sample_frac(size=.15)
+> table(strat_sample$grade)
+freshman junior senior
+      15     15     15
+>
+
+> LETTERS
+[1] "A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S"
+[20] "T" "U" "V" "W" "X" "Y" "Z"
+> sample(LETTERS)
+[1] "G" "P" "A" "Y" "M" "F" "R" "Z" "N" "H" "I" "O" "X" "B" "K" "Q" "V" "E" "S" "D"
+[20] "C" "U" "W" "L" "T" "J"
+> sample(LETTERS)
+[1] "G" "H" "N" "X" "O" "C" "W" "K" "I" "S" "Q" "Y" "T" "R" "B" "L" "V" "J" "Z"
+[20] "U" "M" "F" "A" "E" "P" "D"
+>
+
+> #create vector of data
+> data <- c(1,3,5,6,7,8,10,11,12,14)
+
+> #select random sample of 5 elements without replacement
+> sample(x=data, size=5)
+[1] 14 10 1 5 7
+
+> #create vector of data
+> data <- c(1,3,5,6,7,8,10,11,12,14)
+> #select random sample of 5 elements with replacement
+> sample(x = data, size = 5, replace = TRUE)
+[1]  1  8  5 11  8
+>
+
+> sample(1:20,10)
+[1] 15 20 13 10 14  8 19  7 17 16
+
+
+> sample(1:6,4,replace=TRUE)
+[1] 5 3 2 5
+> sample(1:6,4,replace=FALSE)
+[1] 1 2 3 5
