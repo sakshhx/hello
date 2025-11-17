@@ -1,0 +1,91 @@
+import re
+import math
+from collections import Counter, defaultdict
+
+# --- N-GRAM PROBABILITY CALCULATOR FUNCTIONS ---
+
+# Step 1: Preprocess the corpus and create n-gram frequency tables
+def generate_ngrams(tokens, n):
+    """Generates a list of n-grams (tuples) from a list of tokens."""
+    # Ensure n is at least 1
+    if n <= 0:
+        return []
+    # If using unigram (n=1), the "n-gram" is just the tokens themselves (as single-element tuples for consistency)
+    if n == 1:
+        return [(token,) for token in tokens]
+    # For n > 1, generate sliding window n-grams
+    return [tuple(tokens[i:i+n]) for i in range(len(tokens) - n + 1)]
+
+# Function to count n-grams
+def count_ngrams(tokens, n):
+    """Counts the frequency of each n-gram in the tokens using defaultdict."""
+    ngrams = generate_ngrams(tokens, n)
+    freq = defaultdict(int)
+    for gram in ngrams:
+        freq[gram] += 1
+    return freq
+
+# Function to calculate n-gram probability
+def calculate_ngram_probability(sentence, corpus, n):
+    """Calculates the probability of a sentence using an N-gram model (with Laplace smoothing)."""
+    # Tokenize and normalize the inputs
+    sentence_tokens = sentence.lower().split()
+    corpus_tokens = corpus.lower().split()
+    vocab = set(corpus_tokens)
+    vocab_size = len(vocab)
+
+    # Frequency counts
+    ngram_counts = count_ngrams(corpus_tokens, n)
+    n_minus1_counts = count_ngrams(corpus_tokens, n - 1) if n > 1 else None
+
+    # Generate sentence n-grams
+    sentence_ngrams = generate_ngrams(sentence_tokens, n)
+    prob_log_sum = 0
+
+    for gram in sentence_ngrams:
+        count_ngram = ngram_counts[gram]
+        prob = 0.0
+
+        if n == 1:
+            # Unigram probability (P(w_i) = (Count(w_i) + 1) / (Total Tokens + Vocab Size))
+            total_unigrams = len(corpus_tokens)
+            prob = (count_ngram + 1) / (total_unigrams + vocab_size)
+        else:
+            # Conditional n-gram probability (P(w_i | w_{i-n+1}^{i-1}) = (Count(w_{i-n+1}^i) + 1) / (Count(w_{i-n+1}^{i-1}) + Vocab Size))
+            prefix = gram[:-1] # The (n-1)-gram prefix
+            count_prefix = n_minus1_counts[prefix]
+            prob = (count_ngram + 1) / (count_prefix + vocab_size)
+
+        if prob == 0:
+            print(f"Unseen n-gram {gram} -> Probability = 0")
+            return 0 # If probability is zero, the entire sentence probability is zero.
+
+        prob_log_sum += math.log(prob)
+
+    sentence_probability = math.exp(prob_log_sum)
+    return sentence_probability
+
+# --- MAIN EXECUTION BLOCK ---
+if __name__ == "__main__":
+    print("=== N-gram Sentence Probability Calculator ===")
+
+    # Define a default corpus for testing if the user skips input
+    default_corpus = "I love programming. I love data science. I love Python."
+    default_sentence = "I love Python."
+    default_n = 2
+
+    # User-defined corpus and sentence
+    user_corpus = input(f"Enter the corpus text (default: '{default_corpus}'): ") or default_corpus
+    user_sentence = input(f"Enter a sentence to evaluate (default: '{default_sentence}'): ") or default_sentence
+    try:
+        n_input = input(f"Enter n for n-gram (e.g., 1=unigram, 2=bigram, 3=trigram) (default: {default_n}): ")
+        n = int(n_input) if n_input else default_n
+    except ValueError:
+        print("Invalid input for n. Defaulting to 2.")
+        n = default_n
+
+    probability = calculate_ngram_probability(user_sentence, user_corpus, n)
+
+    print(f"\n Calculated {n}-gram probability of the sentence:\n{user_sentence}\n-> Probability: {probability}")
+
+

@@ -1,0 +1,23 @@
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+documents = [
+"Data science is the future of technology.",
+"Machine learning and data analysis are part of data science.",
+"Python is widely used for machine learning.",
+"Artificial Intelligence and deep learning are growing fields."
+]
+vectorizer = TfidfVectorizer(stop_words='english')
+tfidf_matrix = vectorizer.fit_transform(documents)
+
+query = ["machine learning with python"]
+
+query_vec = vectorizer.transform(query)
+
+cosine_sim = cosine_similarity(query_vec, tfidf_matrix).flatten()
+
+ranked_doc_indices = cosine_sim.argsort()[::- 1]
+print("Query:", query[0])
+print("\nTop relevant documents:")
+for idx in ranked_doc_indices:
+  print(f"Document {idx+1} (Score: {cosine_sim[idx]:.4f}): {documents[idx]}")
